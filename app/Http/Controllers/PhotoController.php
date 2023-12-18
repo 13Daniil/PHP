@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use APP\Models\Photo;
+use App\Models\Photo;
+use App\Models\User;
+use App\Models\Access;
 
 class PhotoController extends Controller
 {
     //Вывод фото по id
-    public function Show($id)
+    public function Show($id, $user, Request $request)
     {
-        $photo = Photo::find($id);
+        $token = $request->link;
+        $user = Access::where('link', 'like', $token)->first();
+        // dd($user);
+        if(!$user)
+        {
+            
+        }
 
+        $photo = Photo::find($id);
         if(!$photo)
         {
             abort(404);
