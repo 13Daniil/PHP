@@ -10,38 +10,43 @@ use App\Models\Access;
 class PhotoController extends Controller
 {
     //Вывод фото по id
-    public function Show($id, $user, Request $request)
+    public function Show($id, Request $request)
     {
         $token = $request->link;
-        $user = Access::where('link', 'like', $token)->first();
-        // dd($user);
-        if(!$user)
-        {
-            
-        }
 
+        
         $photo = Photo::find($id);
         if(!$photo)
         {
             abort(404);
         }
+        
+        $access = Access::where('link', 'like', $token)->first();
 
+        if(!$access)
+        {
+            return "Error, User not found";
+            abort(401);
+        }
+        
         return response()->file(public_path('images/'. $photo->filename));
     }
 
     public function AddPhoto(Request $request)
     {
         $request->validate([
-            'photo' => 'required|image|mimes: jpeg, png, jpg|max: 2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg',
             'description' => 'nullable|string'
         ]);
 
-        $path = $request->file('photo')->AddPhoto('public/images');
+        $path = $request->file('photo')->store('images');
 
         $photo = new Photo();
         $photo->photo = $path;
         $photo->description = $request->input('description'); 
 
-        return "";
+        $photo->save();
+
+        return $photo;
     }
 }
