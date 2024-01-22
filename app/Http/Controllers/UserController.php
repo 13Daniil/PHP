@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use APP\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function register(Request $request)
     {
         $data = $request->validate([
-            'login' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
 
         $user = new User();
-        $user->login = $data['login'];
+        $user->email = $data['email'];
         $user->password = bcrypt($request->input('password'));
         $user->save();
 
@@ -24,7 +25,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('login', 'password');
+        $credentials = $request->only('email', 'password');
 
         if(Auth::attemt($credentials))
         {
