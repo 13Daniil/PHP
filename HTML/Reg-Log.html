@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация и Авторизация</title>
+    <link rel="stylesheet" href="Reg-Log.css">
+	<script src="jquery.js"></script>
+</head>
+<body>
+
+<div class="auth-container">
+    <h2 id="formTitle">Авторизация</h2>
+
+    <div class="auth-switch">
+        <button id="registerBtn">Регистрация</button>
+        <button id="loginBtn" class="active">Авторизация</button>
+    </div>
+
+    <!-- Форма Регистрации -->
+    <form id="registerForm" class="auth-form" action="роут_регистрации" method="post">
+		<input type="name" name="name" placeholder="Name" required>
+	    <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <!-- Форма Авторизации -->
+    <form id="loginForm" class="auth-form active" action="роут_авторизации" method="post">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('registerBtn').addEventListener('click', function() {
+        document.getElementById('registerForm').style.display = 'flex';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('formTitle').innerText = 'Регистрация';
+        document.getElementById('registerBtn').classList.add('active');
+        document.getElementById('loginBtn').classList.remove('active');
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'flex';
+        document.getElementById('formTitle').innerText = 'Авторизация';
+        document.getElementById('loginBtn').classList.add('active');
+        document.getElementById('registerBtn').classList.remove('active');
+    });
+</script>
+
+</body>
+</html>
