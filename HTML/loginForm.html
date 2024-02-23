@@ -5,22 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
     <link rel="stylesheet" href="Reg-Log.css">
-	<script src="jquery.js"></script>
+    <script src="jquery.js"></script>
 </head>
 <body>
 
 <div class="auth-container">
     <h2 id="formTitle">Авторизация</h2>
-
-    <!-- Форма Авторизации -->
-    <form id="loginForm" class="auth-form active" action="роут_авторизации" method="post">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <button type="submit">Войти</button>
+    <form id="loginForm" class="auth-form active">
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Пароль" required>
+        <button type="button" onclick="login()">Войти</button>
 		
 		<p>Еще не зарегистрированы? <a href="register.html">Зарегистрироваться</a></p>
     </form>
 </div>
+
+<script>
+    function login() {
+        var formData = {
+            email: $("#email").val(),
+            password: $("#password").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/api/login", 
+            data: formData,
+            success: function(response) {
+                alert(response);
+            },
+            error: function(error) {
+                alert("Ошибка аутентификации: " + error.responseText);
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
