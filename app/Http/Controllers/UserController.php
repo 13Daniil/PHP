@@ -31,11 +31,11 @@ class UserController extends Controller
 
         if(Auth::attempt($credentials))
         {
-            return "Успешная аутентификация.";
+            return response()->json("Успешная аутентификация.");
         }
         else
         {
-            return "Неверные учетные данные.";
+            return response()->json("Неверные учетные данные.", 401);
         }
     }
 }
