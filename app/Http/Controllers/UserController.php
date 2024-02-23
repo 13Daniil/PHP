@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         $credentials = $request->only('name', 'email', 'password');
 
-        if(Auth::attemt($credentials))
+        if(Auth::attempt($credentials))
         {
             return "Успешная аутентификация.";
         }
