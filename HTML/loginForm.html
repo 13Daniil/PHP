@@ -32,10 +32,10 @@
             url: "http://127.0.0.1:8000/api/login", 
             data: formData,
             success: function(response) {
-                alert(response);
+               console.log(response); 
             },
             error: function(error) {
-                alert("Ошибка аутентификации: " + error.responseText);
+               console.log("Ошибка аутентификации: " + error.responseText); 
             }
         });
     }
