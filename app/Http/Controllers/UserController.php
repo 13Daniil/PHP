@@ -22,12 +22,12 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->save();
 
-        return "Успешная регистрация.";
+        return response()->json("Успешная регистрация.");
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('name', 'email', 'password');
+        $credentials = $request->only('email', 'password');
 
         if(Auth::attempt($credentials))
         {
