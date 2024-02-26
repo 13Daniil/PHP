@@ -39,14 +39,19 @@ class PhotoController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        $path = $request->file('photo')->store('images');
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $path = $request->file('photo')->store('images');
 
-        $photo = new Photo();
-        $photo->photo = $path;
-        $photo->description = $request->input('description'); 
+            $photo = new Photo();
+            $photo->photo = $path;
+            $photo->description = $request->input('description');
 
-        $photo->save();
+            $photo->save();
 
-        return $photo;
+            return $photo;
+        }
+         else {
+            return response()->json(['error' => 'Invalid or missing file.'], 400);
+        }
     }
 }
