@@ -8,28 +8,35 @@ use App\Models\User;
 
 class PhotoController extends Controller
 {
-//Вывод фото по id
-public function show($id, Request $request)
+
+// public function show($id, Request $request) //Вывод фото по id
+// {
+//     $token = $request->link;
+
+//     $photo = Photo::find($id);
+//     if(!$photo)
+//     {
+//         abort(404);
+//     }
+    
+//     $access = Access::where('link', 'like', $token)->first();
+
+//     if(!$access)
+//     {
+//         return "Error, User not found";
+//         abort(401);
+//     }
+    
+//     return response()->file(public_path('images/'. $photo->filename));
+// }
+
+public function show(Request $request)
 {
-    $token = $request->link;
+    $photos = Photo::all();
 
-    
-    $photo = Photo::find($id);
-    if(!$photo)
-    {
-        abort(404);
-    }
-    
-    $access = Access::where('link', 'like', $token)->first();
-
-    if(!$access)
-    {
-        return "Error, User not found";
-        abort(401);
-    }
-    
-    return response()->file(public_path('images/'. $photo->filename));
+    return response()->json(['photos' => $photos], 200);
 }
+
 
 public function addPhoto(Request $request)
 {
@@ -40,7 +47,8 @@ public function addPhoto(Request $request)
 
     if ($request->hasFile('photo')) {
         $file = $request->file('photo');
-        $path = $file->store('images'); // сохраняем файл на сервере в папке "images"
+        $fileName = $file->getClientOriginalName();
+        $path = $file->storeAs('images', $fileName);
 
         $photo = new Photo();
         $photo->path = $path;
@@ -52,9 +60,6 @@ public function addPhoto(Request $request)
         return response()->json(['photo' => $photo], 201);
     } else {
         return response()->json(['error' => 'Invalid or missing file.'], 400);
+        }
     }
-}
-
-
-
 }
