@@ -9,6 +9,7 @@ use App\Http\Controllers\PhotoController;
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/delete', [UserController::class, 'delete']);
 
 Route::post('/post/create', [PostController::class, 'create']);
 Route::get('/post/show', [PostController::class, 'show']);
