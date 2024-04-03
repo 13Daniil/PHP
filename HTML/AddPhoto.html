@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить фото</title>
+    <link rel="stylesheet" href="AddPhoto.css">
+	<script src="jquery.js"></script>
+</head>
+<body>
+
+<div class="add-photo">
+    <form id="imageUploadForm" action="http://127.0.0.1:8000/api/photo/addphoto" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="Описание" name="description">    
+        <input type="file" id="photoInput" name="photo" required>
+        <button id="photoBtn" type="submit">Добавить фото</button>
+		<br><br><a href="Post-Photo.html">Вернуться назад</a>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#imageUploadForm').on('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            var fileInput = $('#photoInput');
+            if (fileInput.get(0).files.length === 0) {
+                alert('Выберите файл для загрузки.');
+                return;
+            }
+
+            $.ajax({
+                method: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+   
+                    console.log("success");
+                    console.log(data);
+
+                },
+                error: function (data) {
+
+                    console.log("error");
+                    console.log(data);
+
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить заметку</title>
+    <link rel="stylesheet" href="AddPost.css">
+    <script src="jquery.js"></script>
+</head>
+<body>
+
+<div class="add-post">
+    <form id="PostCreateForm" action="http://127.0.0.1:8000/api/post/create" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="Текст заметки" name="content">
+        <button id="postBtn" type="submit">Добавить заметку</button>
+        <br><br><a href="Post-Photo.html">Вернуться назад</a>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#PostCreateForm').on('submit', function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                method: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (data) {
+                    console.log("success");
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log("error");
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
