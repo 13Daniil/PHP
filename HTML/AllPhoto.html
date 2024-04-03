@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Галерея BIprint.pro</title>
+<link href="AllPhoto.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<header>
+<div class="containerM">
+<div class="header-row">
+<div class="logo">
+<a href="">
+<span class="logo-name"><strong>BI</strong>print.pro</span>
+<span class="logo-description">
+<span>Фотография — это наша жизнь, наша страсть.</span>
+</span>
+</a>
+</div>
+
+<ul id="menu">
+<li>
+<a href="Main.html">Главная</a>
+</li>
+<li>
+<a href="Post-Photo.html">Добавить фото/заметку</a>
+</li>
+<li class="current">
+<a href="AllPhoto.html">Фото</a>
+</li>
+<li>
+<a href="AllPost.html">Заметки</a>
+</li>
+<li>
+<a><button id="Leave" type="submit">Выход</button></a>
+</li>
+</ul>
+</div>
+</div>
+</header>
+
+<script>
+document.getElementById('Leave').addEventListener('click', function() {
+    window.location.replace('loginForm.html');
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: 'http://127.0.0.1:8000/api/photo/show',
+        method: 'GET',
+        success: function(response) {
+            response.photos.forEach(function(photo) {
+                var photoElement = $('<div class="photo"></div>');
+                photoElement.append('<img src="' + photo.path + '" alt="' + photo.description + '">');
+                $('.AllPhotos').append(photoElement);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+</script>
+
+<div class="AllPhotos"></div>
+
+<footer>
+<div class="container">
+<div class="footer-row">
+<div class="footer-col">
+<p>Copyright ©2024<strong>BI</strong>print.pro</p><br>
+</div>
+</div>
+</footer>
+
+</body>
+</html>
